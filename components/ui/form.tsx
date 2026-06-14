@@ -23,9 +23,7 @@ type FormFieldContextValue<
   name: TName
 }
 
-const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue
-)
+const FormFieldContext = React.createContext<FormFieldContextValue | null>(null)
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
@@ -42,14 +40,15 @@ const FormField = <
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
-  const itemContext = React.useContext(FormItemContext)
-  const { getFieldState } = useFormContext()
-  const formState = useFormState({ name: fieldContext.name })
-  const fieldState = getFieldState(fieldContext.name, formState)
 
   if (!fieldContext) {
     throw new Error("useFormField should be used within <FormField>")
   }
+
+  const itemContext = React.useContext(FormItemContext)
+  const { getFieldState } = useFormContext()
+  const formState = useFormState({ name: fieldContext.name })
+  const fieldState = getFieldState(fieldContext.name, formState)
 
   const { id } = itemContext
 
@@ -102,8 +101,12 @@ function FormLabel({
   )
 }
 
-function FormControl({ children, ...props }: React.ComponentProps<"div"> & { children?: React.ReactNode }) {
+function FormControl({ children }: { children?: React.ReactNode }) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
+
+  if (!children) {
+    return null
+  }
 
   const child = React.Children.only(children) as React.ReactElement<Record<string, unknown>>
 
@@ -114,7 +117,6 @@ function FormControl({ children, ...props }: React.ComponentProps<"div"> & { chi
       : `${formDescriptionId} ${formMessageId}`,
     "aria-invalid": !!error,
     "data-slot": "form-control",
-    ...props,
   } as Record<string, unknown>)
 }
 
