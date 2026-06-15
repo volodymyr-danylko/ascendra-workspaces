@@ -40,8 +40,8 @@ export function VMMetricsChart({ data }: Props) {
         />
         <Tooltip
           contentStyle={{ background: '#1e2433', border: '1px solid #2d3a55', borderRadius: 6, fontSize: 11 }}
-          labelFormatter={formatTs}
-          formatter={(v: number, name: string) => [`${v.toFixed(1)}%`, name]}
+          labelFormatter={(label: unknown) => formatTs(String(label))}
+          formatter={(v: unknown, name: unknown) => [`${Number(v).toFixed(1)}%`, String(name)]}
         />
         <Legend iconSize={8} wrapperStyle={{ fontSize: 11, paddingTop: 8 }} />
         <Area type="monotone" dataKey="cpuPercent" name="CPU" stroke="#6366f1" fill="url(#cpu)" strokeWidth={1.5} dot={false} />
