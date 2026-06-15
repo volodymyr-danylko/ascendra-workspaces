@@ -43,6 +43,7 @@ export function VMInventoryTable({ vms, users, templates }: Props) {
         <div className="relative flex-1 min-w-[200px]">
           <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input
+            aria-label="Search VMs or owners"
             placeholder="Search VMs or owners…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -54,6 +55,7 @@ export function VMInventoryTable({ vms, users, templates }: Props) {
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
+              aria-pressed={statusFilter === s}
               className={cn(
                 'rounded-md px-2.5 py-1 text-xs transition-colors',
                 statusFilter === s
@@ -73,7 +75,7 @@ export function VMInventoryTable({ vms, users, templates }: Props) {
           <thead>
             <tr className="border-b border-border-subtle bg-surface/50">
               {['Name', 'Owner', 'Template', 'Status', 'CPU', 'Memory', 'Disk'].map((h) => (
-                <th key={h} className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">
+                <th key={h} scope="col" className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">
                   {h}
                 </th>
               ))}

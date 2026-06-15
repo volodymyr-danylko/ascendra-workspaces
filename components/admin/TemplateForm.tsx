@@ -28,10 +28,13 @@ export function TemplateForm({ initial, onSubmit, onCancel, isPending }: Props) 
     value: String(form[key]),
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
       const raw = e.target.value;
-      setForm((prev) => ({
-        ...prev,
-        [key]: typeof prev[key] === 'number' ? Number(raw) : raw,
-      }));
+      setForm((prev) => {
+        if (typeof prev[key] === 'number') {
+          const n = Number(raw);
+          return { ...prev, [key]: Number.isNaN(n) ? prev[key] : n };
+        }
+        return { ...prev, [key]: raw };
+      });
     },
   });
 

@@ -28,6 +28,7 @@ export default function UtilizationPage() {
             <button
               key={r.hours}
               onClick={() => setHours(r.hours)}
+              aria-pressed={hours === r.hours}
               className={cn(
                 'rounded-md px-3 py-1.5 text-xs font-medium transition-colors border',
                 hours === r.hours

@@ -54,6 +54,7 @@ export default function TemplatesPage() {
               <p className="text-[10px] text-muted-foreground">{t.baseImage}</p>
               <button
                 onClick={() => setEditTarget(t)}
+                aria-label={`Edit ${t.name}`}
                 className="text-xs text-admin-accent hover:underline"
               >
                 Edit
@@ -84,6 +85,7 @@ export default function TemplatesPage() {
             <TemplateForm
               initial={editTarget}
               onSubmit={async (data) => {
+                if (!editTarget) return;
                 await updateTemplate.mutateAsync(data);
                 setEditTarget(null);
               }}
