@@ -87,7 +87,7 @@ export function VMInventoryTable({ vms, users, templates }: Props) {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       {idle && vm.status === 'running' && (
-                        <AlertTriangle size={12} className="text-status-starting flex-shrink-0" title="Idle > 2h" />
+                        <span title="Idle > 2h"><AlertTriangle size={12} className="text-status-starting flex-shrink-0" /></span>
                       )}
                       <Link href={`/developer/machines/${vm.id}`} className="font-medium text-foreground hover:text-admin-accent transition-colors">
                         {vm.name}
