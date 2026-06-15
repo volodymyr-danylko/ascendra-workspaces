@@ -12,7 +12,7 @@ import { formatUptime, formatCost } from '@/lib/utils';
 
 export default function VMDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { data: vm, isLoading: vmLoading } = useVM(id);
+  const { data: vm, isLoading: vmLoading, isError: vmError } = useVM(id);
   const { data: metrics, isLoading: metricsLoading } = useVMMetrics(id, 24);
   const { data: templates } = useTemplates();
   const { mutate, isPending } = useVMAction(id);
@@ -20,6 +20,11 @@ export default function VMDetailPage({ params }: { params: Promise<{ id: string 
   const template = templates?.find((t) => t.id === vm?.templateId);
 
   if (vmLoading) return <DetailSkeleton />;
+  if (vmError) return (
+    <div className="rounded-xl border border-status-error/30 bg-red-950/20 p-6 text-center">
+      <p className="text-sm text-status-error">Failed to load machine</p>
+    </div>
+  );
   if (!vm) return <p className="text-sm text-muted-foreground">VM not found.</p>;
 
   return (
@@ -73,6 +78,7 @@ export default function VMDetailPage({ params }: { params: Promise<{ id: string 
             href={`https://vscode-server.${vm.id}.ascendra.dev`}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`Open ${vm.name} in IDE (opens in new tab)`}
             className="inline-flex items-center gap-1.5 rounded-md border border-dev-accent bg-dev-accent/10 px-4 py-2 text-sm text-dev-accent hover:bg-dev-accent/20 transition-colors"
           >
             <ExternalLink size={13} /> Open in IDE

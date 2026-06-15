@@ -1,4 +1,5 @@
 'use client';
+import { useId } from 'react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
 interface Props {
@@ -10,15 +11,19 @@ function formatTs(ts: string) {
 }
 
 export function VMMetricsChart({ data }: Props) {
+  const uid = useId();
+  const cpuId = `cpu-${uid}`;
+  const memId = `mem-${uid}`;
+
   return (
     <ResponsiveContainer width="100%" height={220}>
       <AreaChart data={data} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
         <defs>
-          <linearGradient id="cpu" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={cpuId} x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
             <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
           </linearGradient>
-          <linearGradient id="mem" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={memId} x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3} />
             <stop offset="95%" stopColor="#22d3ee" stopOpacity={0} />
           </linearGradient>
@@ -44,8 +49,8 @@ export function VMMetricsChart({ data }: Props) {
           formatter={(v: unknown, name: unknown) => [`${Number(v).toFixed(1)}%`, String(name)]}
         />
         <Legend iconSize={8} wrapperStyle={{ fontSize: 11, paddingTop: 8 }} />
-        <Area type="monotone" dataKey="cpuPercent" name="CPU" stroke="#6366f1" fill="url(#cpu)" strokeWidth={1.5} dot={false} />
-        <Area type="monotone" dataKey="memoryPercent" name="Memory" stroke="#22d3ee" fill="url(#mem)" strokeWidth={1.5} dot={false} />
+        <Area type="monotone" dataKey="cpuPercent" name="CPU" stroke="#6366f1" fill={`url(#${cpuId})`} strokeWidth={1.5} dot={false} />
+        <Area type="monotone" dataKey="memoryPercent" name="Memory" stroke="#22d3ee" fill={`url(#${memId})`} strokeWidth={1.5} dot={false} />
       </AreaChart>
     </ResponsiveContainer>
   );

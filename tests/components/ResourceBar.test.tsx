@@ -12,3 +12,9 @@ it('applies warning color when value > 80', () => {
   const bar = container.querySelector('[style*="85%"]');
   expect(bar?.className).toContain('bg-amber');
 });
+
+it('applies error color when value > 90', () => {
+  const { container } = render(<ResourceBar value={95} label="DISK" />);
+  const bar = container.querySelector('[style*="95%"]');
+  expect(bar?.className).toContain('bg-status-error');
+});

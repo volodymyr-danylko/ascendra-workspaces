@@ -30,3 +30,16 @@ it('calls onAction with "stop" when Stop is clicked', async () => {
   await userEvent.click(screen.getByRole('button', { name: /stop/i }));
   expect(onAction).toHaveBeenCalledWith('stop');
 });
+
+it('shows Start button and no resource bars when stopped', () => {
+  const stoppedVM: VM = { ...mockVM, status: 'stopped', startedAt: null, cpuUsagePercent: 0, memoryUsagePercent: 0, diskUsagePercent: 0 };
+  render(<VMCard vm={stoppedVM} onAction={vi.fn()} isActioning={false} />);
+  expect(screen.getByRole('button', { name: /start/i })).toBeInTheDocument();
+  expect(screen.queryByText('CPU')).not.toBeInTheDocument();
+});
+
+it('disables action buttons when isActioning is true', async () => {
+  render(<VMCard vm={mockVM} onAction={vi.fn()} isActioning={true} />);
+  const buttons = screen.getAllByRole('button');
+  buttons.forEach((btn) => expect(btn).toBeDisabled());
+});

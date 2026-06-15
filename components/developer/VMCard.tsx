@@ -47,6 +47,7 @@ export function VMCard({ vm, onAction, isActioning }: Props) {
             href={`https://vscode-server.${vm.id}.ascendra.dev`}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`Open ${vm.name} in IDE (opens in new tab)`}
             className="inline-flex items-center gap-1.5 rounded-md border border-dev-accent bg-dev-accent/10 px-3 py-1.5 text-xs font-medium text-dev-accent hover:bg-dev-accent/20 transition-colors"
           >
             <ExternalLink size={11} /> Open in IDE
