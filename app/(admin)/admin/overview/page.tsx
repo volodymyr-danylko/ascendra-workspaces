@@ -1,7 +1,7 @@
 'use client';
 import { useFleet } from '@/hooks/useFleet';
 import { FleetKPICard } from '@/components/admin/FleetKPICard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { OverviewSkeleton } from '@/components/admin/OverviewSkeleton';
 import { formatCost } from '@/lib/utils';
 
 export default function OverviewPage() {
@@ -26,17 +26,6 @@ export default function OverviewPage() {
         <FleetKPICard label="Avg Memory" value={`${fleet.avgMemoryUtilizationPercent}%`} sub={`peak ${fleet.peakMemoryUtilizationPercent}%`} />
         <FleetKPICard label="MTD Cost" value={formatCost(fleet.monthToDateCost)} sub="this month" />
         <FleetKPICard label="Projected" value={formatCost(fleet.projectedMonthlyCost)} sub="end of month" />
-      </div>
-    </div>
-  );
-}
-
-function OverviewSkeleton() {
-  return (
-    <div className="space-y-6">
-      <Skeleton className="h-7 w-40" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
       </div>
     </div>
   );

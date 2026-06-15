@@ -1,5 +1,6 @@
 'use client';
 import { use } from 'react';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { useVM, useVMMetrics, useVMAction } from '@/hooks/useVMs';
@@ -7,6 +8,7 @@ import { useTemplates } from '@/hooks/useTemplates';
 import { VMStatusBadge } from '@/components/developer/VMStatusBadge';
 import { ResourceBar } from '@/components/developer/ResourceBar';
 import { VMMetricsChart } from '@/components/developer/VMMetricsChart';
+import { VMDetailSkeleton } from '@/components/developer/VMDetailSkeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatUptime, formatCost } from '@/lib/utils';
 
@@ -19,13 +21,13 @@ export default function VMDetailPage({ params }: { params: Promise<{ id: string 
 
   const template = templates?.find((t) => t.id === vm?.templateId);
 
-  if (vmLoading) return <DetailSkeleton />;
+  if (vmLoading) return <VMDetailSkeleton />;
   if (vmError) return (
     <div className="rounded-xl border border-status-error/30 bg-red-950/20 p-6 text-center">
       <p className="text-sm text-status-error">Failed to load machine</p>
     </div>
   );
-  if (!vm) return <p className="text-sm text-muted-foreground">VM not found.</p>;
+  if (!vm) notFound();
 
   return (
     <div className="max-w-3xl space-y-6">
@@ -100,16 +102,6 @@ export default function VMDetailPage({ params }: { params: Promise<{ id: string 
           </>
         )}
       </div>
-    </div>
-  );
-}
-
-function DetailSkeleton() {
-  return (
-    <div className="max-w-3xl space-y-6">
-      <Skeleton className="h-7 w-48" />
-      <Skeleton className="h-24 w-full rounded-xl" />
-      <Skeleton className="h-[220px] w-full rounded-xl" />
     </div>
   );
 }
