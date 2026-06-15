@@ -24,4 +24,5 @@ test('admin can navigate to VM Inventory and filter', async ({ page }) => {
   await expect(page).toHaveURL(/admin\/inventory/);
   await page.getByLabel('Search VMs or owners').fill('charlie');
   await expect(page.getByText('charlie-dev-01')).toBeVisible();
+  await expect(page.getByText('dev-machine-01')).not.toBeVisible();
 });
