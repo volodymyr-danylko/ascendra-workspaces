@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { BarChart3, Server, Activity, Box, LogOut } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/lib/auth';
 
@@ -15,10 +16,12 @@ const NAV = [
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const qc = useQueryClient();
   const { user, logout } = useAuthStore();
 
   async function handleLogout() {
     await logout();
+    qc.clear();
     router.push('/login');
   }
 

@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Monitor, LogOut } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/lib/auth';
 
@@ -10,10 +11,12 @@ const NAV = [{ href: '/developer/machines', label: 'My Machines', icon: Monitor 
 export function DeveloperSidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const qc = useQueryClient();
   const { user, logout } = useAuthStore();
 
   async function handleLogout() {
     await logout();
+    qc.clear();
     router.push('/login');
   }
 
