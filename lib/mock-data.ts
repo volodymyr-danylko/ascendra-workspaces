@@ -1,4 +1,4 @@
-import type { VM, VMTemplate, User, VMStatus } from '@/types';
+import type { VM, VMTemplate, User } from '@/types';
 
 export const MOCK_USERS: User[] = [
   { id: 'u1', name: 'Alice Chen', email: 'alice@ascendra.dev', role: 'engineer', vmCount: 2 },
@@ -25,7 +25,7 @@ const BASE_TEMPLATES: VMTemplate[] = [
 ];
 
 // Module-level mutable state — persists across requests in Next.js dev server
-let vms: VM[] = [...BASE_VMS];
+const vms: VM[] = [...BASE_VMS];
 let templates: VMTemplate[] = [...BASE_TEMPLATES];
 
 export const db = {
